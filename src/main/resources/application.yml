@@ -206,18 +206,6 @@ app:
     # 允许的跨域来源
     allowed-origins: "*"
 
-# 日志配置
-logging:
-  level:
-    com.sakura.poetry: debug
-    com.sakura.poetry.mapper: debug
-    org.springframework.security: debug
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
-  file:
-    name: logs/the-poetry-app-server.log
-
 # Minio配置
 minio:
   # Minio服务器地址
