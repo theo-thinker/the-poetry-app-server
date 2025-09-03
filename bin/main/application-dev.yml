@@ -1,0 +1,80 @@
+# 开发环境配置
+# 作者: Sakura Huang
+# 创建时间: 2025-09-03
+
+spring:
+  # 数据源配置（开发环境）
+  datasource:
+    url: jdbc:mysql://localhost:3306/poetry_app_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
+    username: root
+    password: sakura_dev_root
+    
+    # Druid监控配置
+    druid:
+      # 开启StatFilter
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico
+        
+      # 开启StatViewServlet
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: admin
+        login-password: admin123
+        
+  # Redis配置（开发环境）
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 1
+      
+  # 开发工具配置
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+    livereload:
+      enabled: true
+
+# 服务器配置（开发环境）
+server:
+  port: 8080
+
+# MyBatis-Plus配置（开发环境）
+mybatis-plus:
+  configuration:
+    # 开启SQL日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 日志配置（开发环境）
+logging:
+  level:
+    root: info
+    com.sakura.poetry: debug
+    com.sakura.poetry.mapper: debug
+    org.springframework.security: debug
+    org.springframework.web: debug
+    com.alibaba.druid: debug
+
+# 应用配置（开发环境）
+app:
+  # 开发模式
+  debug: true
+  
+  # 文件存储配置
+  file:
+    upload-path: ./uploads/dev/
+    
+  # 跨域配置
+  cors:
+    enabled: true
+    allowed-origins: 
+      - http://localhost:3000
+      - http://localhost:8081
+      - http://127.0.0.1:3000
+      - http://127.0.0.1:8081
