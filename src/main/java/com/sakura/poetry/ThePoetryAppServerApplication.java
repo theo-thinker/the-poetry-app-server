@@ -1,5 +1,6 @@
 package com.sakura.poetry;
 
+import com.sakura.poetry.config.CustomBanner;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,6 +47,7 @@ public class ThePoetryAppServerApplication {
         System.setProperty("spring.application.name", "the-poetry-app-server");
         System.setProperty("server.port", "8080");
         
-        SpringApplication.run(ThePoetryAppServerApplication.class, args);
+        SpringApplication app = new SpringApplication(ThePoetryAppServerApplication.class);
+        app.run(args);
     }
 }

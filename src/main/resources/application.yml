@@ -206,6 +206,19 @@ app:
     # 允许的跨域来源
     allowed-origins: "*"
 
+  # Banner配置
+  banner:
+    # 是否启用自定义Banner
+    enabled: true
+    # 默认Banner文件路径
+    default-banner: banner.txt
+    # 开发环境Banner文件路径
+    dev-banner: banner-dev.txt
+    # 生产环境Banner文件路径
+    prod-banner: banner-prod.txt
+    # 测试环境Banner文件路径
+    test-banner: banner-test.txt
+
 # Minio配置
 minio:
   # Minio服务器地址

@@ -1,15 +1,3 @@
-.idea
-.idea/
-
-.gradle
-.gradle/
-
-build/
-
-logs/
-
-bin/
-
 # Logs
 logs
 *.log
