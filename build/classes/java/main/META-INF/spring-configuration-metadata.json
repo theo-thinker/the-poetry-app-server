@@ -1,0 +1,15 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource.druid",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.sakura.poetry.config.DataSourceConfig",
+      "sourceMethod": "dataSource()"
+    }
+  ],
+  "properties": [],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

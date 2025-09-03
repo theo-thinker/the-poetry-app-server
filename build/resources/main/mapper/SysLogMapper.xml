@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sakura.poetry.mapper.SysLogMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, username, operation, method, params, ip, user_agent, execution_time,
+        status, error_message, created_time
+    </sql>
+
+    <!-- 查询日志列表（分页） -->
+    <select id="selectLogList" resultType="com.sakura.poetry.entity.SysLog">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sys_log
+        WHERE 1=1
+        <if test="log.userId != null">
+            AND user_id = #{log.userId}
+        </if>
+        <if test="log.username != null and log.username != ''">
+            AND username LIKE CONCAT('%', #{log.username}, '%')
+        </if>
+        <if test="log.operation != null and log.operation != ''">
+            AND operation LIKE CONCAT('%', #{log.operation}, '%')
+        </if>
+        <if test="log.method != null and log.method != ''">
+            AND method LIKE CONCAT('%', #{log.method}, '%')
+        </if>
+        <if test="log.status != null">
+            AND status = #{log.status}
+        </if>
+        ORDER BY created_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 根据用户ID查询操作日志 -->
+    <select id="selectByUserId" resultType="com.sakura.poetry.entity.SysLog">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sys_log
+        WHERE user_id = #{userId}
+        ORDER BY created_time DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 查询指定时间范围内的日志 -->
+    <select id="selectByTimeRange" resultType="com.sakura.poetry.entity.SysLog">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sys_log
+        WHERE created_time BETWEEN #{startTime} AND #{endTime}
+        ORDER BY created_time DESC
+    </select>
+
+</mapper>

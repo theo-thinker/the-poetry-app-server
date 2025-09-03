@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sakura.poetry.mapper.PoetMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, poet_name, alias, gender, birthday, death_day, dynasty_id, birthplace, description,
+        avatar, view_count, like_count, poetry_count, status, created_by, created_time,
+        updated_by, updated_time, is_deleted
+    </sql>
+
+    <!-- 根据姓名查询诗人列表 -->
+    <select id="selectByPoetName" parameterType="string" resultType="com.sakura.poetry.entity.Poet">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poet
+        WHERE poet_name LIKE CONCAT('%', #{poetName}, '%') AND is_deleted = 0
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 查询诗人列表（分页） -->
+    <select id="selectPoetList" parameterType="com.sakura.poetry.entity.Poet" resultType="com.sakura.poetry.entity.Poet">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poet
+        WHERE is_deleted = 0
+        <if test="poetName != null and poetName != ''">
+            AND poet_name LIKE CONCAT('%', #{poetName}, '%')
+        </if>
+        <if test="alias != null and alias != ''">
+            AND alias LIKE CONCAT('%', #{alias}, '%')
+        </if>
+        <if test="dynastyId != null">
+            AND dynasty_id = #{dynastyId}
+        </if>
+        <if test="birthplace != null and birthplace != ''">
+            AND birthplace LIKE CONCAT('%', #{birthplace}, '%')
+        </if>
+        <if test="status != null">
+            AND status = #{status.value}
+        </if>
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 根据朝代ID查询诗人列表 -->
+    <select id="selectByDynastyId" parameterType="long" resultType="com.sakura.poetry.entity.Poet">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poet
+        WHERE dynasty_id = #{dynastyId} AND is_deleted = 0
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 增加诗人浏览次数 -->
+    <update id="incrementViewCount" parameterType="long">
+        UPDATE poet
+        SET view_count = view_count + 1
+        WHERE id = #{poetId}
+    </update>
+
+    <!-- 增加诗人点赞次数 -->
+    <update id="incrementLikeCount" parameterType="long">
+        UPDATE poet
+        SET like_count = like_count + 1
+        WHERE id = #{poetId}
+    </update>
+
+    <!-- 逻辑删除 -->
+    <update id="logicDeleteById" parameterType="long">
+        UPDATE poet
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
+</mapper>
