@@ -100,8 +100,6 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     # 时区
     time-zone: GMT+8
-    # 属性命名策略
-    property-naming-strategy: SNAKE_CASE
   
   # MVC配置
   mvc:

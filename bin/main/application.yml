@@ -1,0 +1,220 @@
+server:
+  # 服务器端口
+  port: 8080
+  # 服务器地址
+  address: 0.0.0.0
+  # 优雅停机
+  shutdown: graceful
+  # Tomcat配置
+  tomcat:
+    # 最大连接数
+    max-connections: 8192
+    # 接受队列长度
+    accept-count: 100
+    # 最大线程数
+    max-threads: 200
+    # 最小线程数
+    min-spare-threads: 10
+    # 连接超时时间（毫秒）
+    connection-timeout: 20000
+
+# Spring配置
+spring:
+  # 应用配置
+  application:
+    name: the-poetry-app-server
+  
+  # 数据源配置
+  datasource:
+    # 数据库驱动
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 数据库连接URL
+    url: jdbc:mysql://localhost:3306/poetry_app_dev?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    # 数据库用户名
+    username: root
+    # 数据库密码
+    password: sakura_dev_root
+    
+    # Druid连接池配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化连接数
+      initial-size: 5
+      # 最小连接数
+      min-idle: 5
+      # 最大连接数
+      max-active: 20
+      # 获取连接等待超时时间（毫秒）
+      max-wait: 60000
+      # 间隔多久才进行一次检测，检测需要关闭的空闲连接（毫秒）
+      time-between-eviction-runs-millis: 60000
+      # 一个连接在池中最小生存的时间（毫秒）
+      min-evictable-idle-time-millis: 300000
+      # 验证连接有效性的SQL
+      validation-query: SELECT 1
+      # 申请连接时执行validationQuery检测连接是否有效
+      test-while-idle: true
+      # 申请连接时执行validationQuery检测连接是否有效
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效
+      test-on-return: false
+      # 是否缓存preparedStatement
+      pool-prepared-statements: true
+      # 缓存preparedStatement的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置监控统计拦截的filters
+      filters: stat,wall
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # 配置扩展插件
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  
+  # Redis配置
+  data:
+    redis:
+      # Redis服务器地址
+      host: localhost
+      # Redis服务器端口
+      port: 6379
+      # Redis数据库索引
+      database: 0
+      # Redis服务器密码
+      password:
+      # 连接超时时间（毫秒）
+      timeout: 2000ms
+      # 连接池配置
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 20
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 10
+          # 连接池中的最小空闲连接
+          min-idle: 0
+  
+  # JSON配置
+  jackson:
+    # 日期格式
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 时区
+    time-zone: GMT+8
+  
+  # MVC配置
+  mvc:
+    # 静态资源处理
+    static-path-pattern: /**
+    # 异步请求超时时间（毫秒）
+    async-request-timeout: 30000
+  
+  # Servlet配置
+  servlet:
+    multipart:
+      # 是否启用文件上传
+      enabled: true
+      # 最大文件大小
+      max-file-size: 10MB
+      # 最大请求大小
+      max-request-size: 100MB
+
+# MyBatis-Plus配置
+mybatis-plus:
+  # MyBatis原生配置
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 开启缓存
+    cache-enabled: false
+    # 设置懒加载
+    lazy-loading-enabled: true
+    # 设置积极懒加载
+    aggressive-lazy-loading: false
+    # 允许多结果集
+    multiple-result-sets-enabled: true
+    # 允许使用列标签
+    use-column-label: true
+    # 禁用语句缓存
+    use-generated-keys: false
+    # 给予被嵌套的resultMap以字段-属性的映射支持
+    auto-mapping-behavior: partial
+    # 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果
+    auto-mapping-unknown-column-behavior: warning
+    # 对于批量更新操作缓存SQL以提高性能
+    default-executor-type: simple
+    # 数据库超时时间
+    default-statement-timeout: 25000
+    # 日志实现
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  
+  # 全局配置
+  global-config:
+    # 数据库相关配置
+    db-config:
+      # 主键类型
+      id-type: auto
+      # 逻辑删除字段
+      logic-delete-field: isDeleted
+      # 逻辑删除值
+      logic-delete-value: 1
+      # 逻辑未删除值
+      logic-not-delete-value: 0
+      # 数据库类型
+      db-type: mysql
+    # 字段策略
+    field-strategy: not_empty
+
+# 应用自定义配置
+app:
+  # JWT配置
+  jwt:
+    # 密钥
+    secret: the-poetry-app-server-jwt-secret-key-sakura-huang-2025-09-03
+    # 过期时间（秒）
+    expiration: 604800
+    # 刷新Token过期时间（秒）
+    refresh-expiration: 1209600
+    # Token前缀
+    token-prefix: Bearer
+    # Header名称
+    header-name: Authorization
+
+  # 文件存储配置
+  file:
+    # 上传路径
+    upload-path: ./uploads/
+    # 访问路径
+    access-path: /files/**
+
+  # 系统配置
+  system:
+    # 系统名称
+    name: 企业级诗词APP后端服务
+    # 版本
+    version: 1.0.0
+    # 作者
+    author: Sakura Huang
+    # 描述
+    description: 基于Spring Boot 3.5.5的企业级诗词应用后端服务
+
+# 日志配置
+logging:
+  level:
+    com.sakura.poetry: debug
+    com.sakura.poetry.mapper: debug
+    org.springframework.security: debug
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/the-poetry-app-server.log
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized

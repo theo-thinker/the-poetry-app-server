@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sakura.poetry.mapper.PoetryMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, subtitle, poet_id, dynasty_id, category_id, content, content_format, translation,
+        annotation, appreciation, background, tags, difficulty_level, word_count, verse_count,
+        rhythm, rhyme_scheme, view_count, like_count, collect_count, share_count, comment_count,
+        is_featured, is_hot, source, copyright_info, status, publish_time, created_by, created_time,
+        updated_by, updated_time, is_deleted
+    </sql>
+
+    <!-- 根据标题查询诗词列表 -->
+    <select id="selectByTitle" parameterType="string" resultType="com.sakura.poetry.entity.Poetry">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poetry
+        WHERE title LIKE CONCAT('%', #{title}, '%') AND is_deleted = 0 AND status = 1
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 查询诗词列表（分页） -->
+    <select id="selectPoetryList" parameterType="com.sakura.poetry.entity.Poetry" resultType="com.sakura.poetry.entity.Poetry">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poetry
+        WHERE is_deleted = 0
+        <if test="title != null and title != ''">
+            AND title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="poetId != null">
+            AND poet_id = #{poetId}
+        </if>
+        <if test="dynastyId != null">
+            AND dynasty_id = #{dynastyId}
+        </if>
+        <if test="categoryId != null">
+            AND category_id = #{categoryId}
+        </if>
+        <if test="status != null">
+            AND status = #{status.value}
+        </if>
+        <if test="isFeatured != null">
+            AND is_featured = #{isFeatured}
+        </if>
+        <if test="isHot != null">
+            AND is_hot = #{isHot}
+        </if>
+        ORDER BY created_time DESC
+    </select>
+
+    <!-- 查询热门诗词列表 -->
+    <select id="selectHotPoetryList" parameterType="int" resultType="com.sakura.poetry.entity.Poetry">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poetry
+        WHERE is_deleted = 0 AND status = 1
+        ORDER BY view_count DESC, like_count DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 查询精选诗词列表 -->
+    <select id="selectFeaturedPoetryList" parameterType="int" resultType="com.sakura.poetry.entity.Poetry">
+        SELECT <include refid="Base_Column_List"/>
+        FROM poetry
+        WHERE is_deleted = 0 AND status = 1 AND is_featured = 1
+        ORDER BY created_time DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 增加诗词浏览次数 -->
+    <update id="incrementViewCount" parameterType="long">
+        UPDATE poetry
+        SET view_count = view_count + 1
+        WHERE id = #{poetryId}
+    </update>
+
+    <!-- 增加诗词点赞次数 -->
+    <update id="incrementLikeCount" parameterType="long">
+        UPDATE poetry
+        SET like_count = like_count + 1
+        WHERE id = #{poetryId}
+    </update>
+
+    <!-- 增加诗词收藏次数 -->
+    <update id="incrementCollectCount" parameterType="long">
+        UPDATE poetry
+        SET collect_count = collect_count + 1
+        WHERE id = #{poetryId}
+    </update>
+
+    <!-- 逻辑删除 -->
+    <update id="logicDeleteById" parameterType="long">
+        UPDATE poetry
+        SET is_deleted = 1
+        WHERE id = #{id}
+    </update>
+
+</mapper>
