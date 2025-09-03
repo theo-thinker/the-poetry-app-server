@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 /**
  * 企业级诗词APP后端服务主启动类
@@ -32,6 +33,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAsync
 @EnableAspectJAutoProxy(exposeProxy = true)
+@EnableWebSocket
 @MapperScan("com.sakura.poetry.mapper")
 public class ThePoetryAppServerApplication {
 

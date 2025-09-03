@@ -196,6 +196,15 @@ app:
     author: Sakura Huang
     # 描述
     description: 基于Spring Boot 3.5.5的企业级诗词应用后端服务
+  
+  # WebSocket配置
+  websocket:
+    # 是否启用
+    enabled: true
+    # 端点路径
+    endpoint: /ws/chat
+    # 允许的跨域来源
+    allowed-origins: "*"
 
 # 日志配置
 logging:
@@ -208,6 +217,46 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
   file:
     name: logs/the-poetry-app-server.log
+
+# Minio配置
+minio:
+  # Minio服务器地址
+  endpoint: http://localhost:9000
+  # 访问密钥
+  access-key: minioadmin
+  # 秘密密钥
+  secret-key: minioadmin
+  # 默认存储桶名称
+  bucket-name: poetry-app
+  # 连接超时时间（毫秒）
+  connect-timeout: 10000
+  # 读取超时时间（毫秒）
+  read-timeout: 30000
+  # 写入超时时间（毫秒）
+  write-timeout: 30000
+  # 是否启用HTTPS
+  secure: false
+  # 文件上传的最大大小（字节）
+  max-file-size: 104857600
+  # 允许的文件类型
+  allowed-file-types:
+    - image/jpeg
+    - image/png
+    - image/gif
+    - image/bmp
+    - image/webp
+    - application/pdf
+    - application/msword
+    - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    - application/vnd.ms-excel
+    - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    - application/vnd.ms-powerpoint
+    - application/vnd.openxmlformats-officedocument.presentationml.presentation
+    - text/plain
+    - application/zip
+    - application/x-rar-compressed
+  # 临时URL的有效期（秒）
+  url-expiry-seconds: 604800
 
 # 管理端点配置
 management:

@@ -52,6 +52,9 @@ dependencies {
     // IP2Region
     implementation("org.lionsoul:ip2region:2.7.0")
 
+    // WebSocket
+    implementation("org.java-websocket:Java-WebSocket:1.5.3")
+
     // MyBatis Plus
     implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.12")
     implementation("com.baomidou:mybatis-plus-generator:3.5.12")
